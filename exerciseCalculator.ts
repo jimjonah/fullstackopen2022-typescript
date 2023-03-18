@@ -40,7 +40,8 @@ const calculateExercises = (trainingData: Array<number>, targetHours:number): Tr
   if(averageExerciseDays >= .5 && averageHours > targetHours){
     rating = 3;
     message = 'Awesome! Keep it up!';
-  }else if(averageExerciseDays >= .5 && averageHours < targetHours){
+  }else if(averageExerciseDays >= .5 && averageHours < targetHours ||
+    averageExerciseDays < .5 && averageHours > targetHours){
     rating = 2;
     message = 'not too bad but could be better';
   }
@@ -59,4 +60,5 @@ const calculateExercises = (trainingData: Array<number>, targetHours:number): Tr
 
 console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
 console.log(calculateExercises([1.5, 0, 2, 2.1, 0, 1.4, 1], 2));
+console.log(calculateExercises([4.5, 0, 0, 5.1, 0, 1.4, 0], 2));
 console.log(calculateExercises([1.5, 0, 0, 2.1, 0, 1.4, 0], 2));
