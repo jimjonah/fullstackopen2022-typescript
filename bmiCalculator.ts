@@ -6,21 +6,22 @@ interface CalcNumbers {
   weight: number;
 }
 
-const parseArguments = (args: string[]): CalcNumbers => {
-  if (args.length < 4) throw new Error('Not enough arguments');
-  if (args.length > 4) throw new Error('Too many arguments');
+const validQueryParams = (args: string[]): CalcNumbers => {
+  // console.log(args, args.length);
+  if (args.length < 2) throw new Error('Not enough arguments');
+  if (args.length > 2) throw new Error('Too many arguments');
 
-  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+  if (!isNaN(Number(args[0])) && !isNaN(Number(args[1]))) {
     return {
-      height: Number(args[2]),
-      weight: Number(args[3])
+      height: Number(args[0]),
+      weight: Number(args[1])
     }
   } else {
     throw new Error('Provided values were not numbers!');
   }
 }
 
-function calculateBmi(centimeters: number, kilograms: number): string {
+function calculateBmiForWeb(centimeters: number, kilograms: number): string {
   let meter = centimeters / 100;
 
   let bmi = kilograms / (meter * meter);
@@ -42,21 +43,17 @@ function calculateBmi(centimeters: number, kilograms: number): string {
 // console.log(calculateBmi(180, 84));
 // console.log(calculateBmi(180, 100));
 
-try {
-  const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
-  }
-  console.log(errorMessage);
-}
+
 
 // npm run calculateBmi 180 100
 // npm run calculateBmi 180 84
 // npm run calculateBmi 180 74
 // npm run calculateBmi 180 55
 
+const calculateBmiService = {
+  validQueryParams:validQueryParams,
+  calculateBmi:calculateBmiForWeb,
+}
 
-export default calculateBmi;
+
+export default calculateBmiService;
