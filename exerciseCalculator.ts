@@ -8,7 +8,7 @@ interface TrainingValues {
 const parseArguments = (args: string[]): TrainingValues => {
   if (args.length < 3) throw new Error('Not enough arguments');
 
-  let trainingData = [];
+  const trainingData = [];
   for (let i = 2; i < args.length; i++) {
     // console.log('args[i]', args[i]);
     // console.log('!isNaN(Number(args[i])', !isNaN(Number(args[i])));
@@ -23,8 +23,8 @@ const parseArguments = (args: string[]): TrainingValues => {
   return {
     trainingData: trainingData,
     targetValue: trainingData[trainingData.length - 1]
-  }
-}
+  };
+};
 
 interface TrainingResult {
   periodLength: number,
@@ -54,7 +54,7 @@ const calculateExercises = (trainingData: Array<number>, targetHours: number): T
   // if exercise days median days but average hours is slightly below target then 2
   // otherwise 1
 
-  let averageExerciseDays = trainingDays / trainingData.length;
+  const averageExerciseDays = trainingDays / trainingData.length;
   console.log('averageExerciseDays', averageExerciseDays);
   let rating = 1;
   let message = 'Let\'s step it up a bit!';
@@ -77,7 +77,7 @@ const calculateExercises = (trainingData: Array<number>, targetHours: number): T
     target: targetHours,
     average: averageHours
   };
-}
+};
 
 //
 // console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
@@ -89,7 +89,7 @@ try {
   const { trainingData, targetValue } = parseArguments(process.argv);
   console.log(calculateExercises(trainingData, targetValue));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
+  let errorMessage = 'Something bad happened.';
   if (error instanceof Error) {
     errorMessage += ' Error: ' + error.message;
   }

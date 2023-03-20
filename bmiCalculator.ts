@@ -15,16 +15,16 @@ const validQueryParams = (args: string[]): CalcNumbers => {
     return {
       height: Number(args[0]),
       weight: Number(args[1])
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 function calculateBmiForWeb(centimeters: number, kilograms: number): string {
-  let meter = centimeters / 100;
+  const meter = centimeters / 100;
 
-  let bmi = kilograms / (meter * meter);
+  const bmi = kilograms / (meter * meter);
   // console.log('bmi', bmi);
 
   if (bmi < 18.5) {
@@ -53,7 +53,7 @@ function calculateBmiForWeb(centimeters: number, kilograms: number): string {
 const calculateBmiService = {
   validQueryParams:validQueryParams,
   calculateBmi:calculateBmiForWeb,
-}
+};
 
 
 export default calculateBmiService;
