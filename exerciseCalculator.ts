@@ -1,30 +1,4 @@
 
-interface TrainingValues {
-  trainingData: Array<number>;
-  targetValue: number;
-}
-
-
-const parseArguments = (args: string[]): TrainingValues => {
-  if (args.length < 3) throw new Error('Not enough arguments');
-
-  const trainingData = [];
-  for (let i = 2; i < args.length; i++) {
-    // console.log('args[i]', args[i]);
-    // console.log('!isNaN(Number(args[i])', !isNaN(Number(args[i])));
-
-    if (!isNaN(Number(args[i]))) {
-      trainingData.push(Number(args[i]));
-    } else {
-      throw new Error('Provided values were not numbers!');
-    }
-  }
-
-  return {
-    trainingData: trainingData,
-    targetValue: trainingData[trainingData.length - 1]
-  };
-};
 
 interface TrainingResult {
   periodLength: number,
@@ -38,11 +12,22 @@ interface TrainingResult {
 
 
 const calculateExercises = (trainingData: Array<number>, targetHours: number): TrainingResult => {
+  if(typeof targetHours === 'undefined' || typeof trainingData === 'undefined'){
+    throw new Error('parameters missing');
+  }
+  if(isNaN(targetHours)){
+    throw new Error('malformatted parameters');
+  }
+
+
   let trainingDays = 0;
   let averageHours = 0;
   let totalHours = 0;
 
   trainingData.forEach((val) => {
+    if(isNaN(Number(val))){
+      throw new Error('malformatted parameters');
+    }
     if (val !== 0) {
       trainingDays++;
       totalHours += val;
@@ -55,7 +40,7 @@ const calculateExercises = (trainingData: Array<number>, targetHours: number): T
   // otherwise 1
 
   const averageExerciseDays = trainingDays / trainingData.length;
-  console.log('averageExerciseDays', averageExerciseDays);
+  // console.log('averageExerciseDays', averageExerciseDays);
   let rating = 1;
   let message = 'Let\'s step it up a bit!';
 
@@ -85,20 +70,16 @@ const calculateExercises = (trainingData: Array<number>, targetHours: number): T
 // console.log(calculateExercises([4.5, 0, 0, 5.1, 0, 1.4, 0], 2));
 // console.log(calculateExercises([1.5, 0, 0, 2.1, 0, 1.4, 0], 2));
 
-try {
-  const { trainingData, targetValue } = parseArguments(process.argv);
-  console.log(calculateExercises(trainingData, targetValue));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happened.';
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
-  }
-  console.log(errorMessage);
-}
+
 
 // npm run calculateExercises 3 0 2 4.5 0 3 1 2
 // npm run calculateExercises 1.5 0 2 2.1 0 1.4 1 2
 // npm run calculateExercises 4.5 0 0 5.1 0 1.4 0 2
 // npm run calculateExercises 1.5 0 0 2.1 0 1.4 0 0 2
 
-export default calculateExercises;
+const calculateExerciseService ={
+  calculateExercises:calculateExercises,
+}
+
+
+export default calculateExerciseService;
