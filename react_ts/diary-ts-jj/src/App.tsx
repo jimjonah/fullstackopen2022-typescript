@@ -32,6 +32,10 @@ const App = () => {
 
       diaryService.addEntry(noteToAdd);
       setDiaries(dairies.concat(noteToAdd));
+      setNewDate('')
+      setNewVisibility('')
+      setNewWeather('')
+      setNewComment('')
     } catch (e) {
       if (e instanceof Error) {
         const errorMessage = ' Error: ' + e.message;
@@ -41,10 +45,6 @@ const App = () => {
         }, 5000)
       }
     }
-    setNewDate('')
-    setNewVisibility('')
-    setNewWeather('')
-    setNewComment('')
   };
 
 
@@ -53,9 +53,40 @@ const App = () => {
       <h2>Add New Entry</h2>
       {newError && <p style={{color:'red'}}>{newError}</p>}
       <form onSubmit={noteCreation}>
-        Date <input value={newDate} onChange={(event) => setNewDate(event.target.value)}/> <br/>
-        Visibility <input value={newVisibility} onChange={(event) => setNewVisibility(event.target.value)}/> <br/>
-        Weather <input value={newWeather} onChange={(event) => setNewWeather(event.target.value)}/> <br/>
+        <label htmlFor="start">Date:</label>
+        <input type="date" id="start" name="dairy-date" style={{width:'155px'}}
+               value={newDate}
+               min="2018-01-01" max="2025-12-31"
+               onChange={(event) => setNewDate(event.target.value)}/><br/>
+
+        <div>
+          Visibility
+
+          Great   <input type="radio" name="filter"
+                              onChange={() => setNewVisibility('great')} />
+          Good    <input type="radio" name="filter"
+                              onChange={() => setNewVisibility('good')} />
+          OK      <input type="radio" name="filter"
+                              onChange={() => setNewVisibility('ok')} />
+          Poor    <input type="radio" name="filter"
+                         onChange={() => setNewVisibility('poor')} />
+        </div>
+
+        <div>
+          Weather
+
+          Sunny   <input type="radio" name="filter"
+                         onChange={() => setNewWeather('sunny')} />
+          Rainy    <input type="radio" name="filter"
+                         onChange={() => setNewWeather('rainy')} />
+          Windy      <input type="radio" name="filter"
+                         onChange={() => setNewWeather('windy')} />
+          Cloudy    <input type="radio" name="filter"
+                         onChange={() => setNewWeather('cloudy')} />
+          Stormy    <input type="radio" name="filter"
+                           onChange={() => setNewWeather('stormy')} />
+        </div>
+        {/*Weather <input value={newWeather} onChange={(event) => setNewWeather(event.target.value)}/> <br/>*/}
         Comment <input value={newComment} onChange={(event) => setNewComment(event.target.value)}/> <br/>
         <button type='submit'>add</button>
       </form>
