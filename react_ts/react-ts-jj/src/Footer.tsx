@@ -1,6 +1,6 @@
-import {courseParts} from "./types";
+import {CoursePart} from "./types";
 
-const Footer = ({courseParts}: {courseParts:Array<courseParts>}) => {
+const Footer = ({courseParts}: {courseParts:Array<CoursePart>}) => {
   return(
     <>
       <p>
