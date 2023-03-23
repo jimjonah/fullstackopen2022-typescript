@@ -1,17 +1,19 @@
-import {Gender, NewPatientEntry} from "../types";
+import {Entry, Gender, NewPatientEntry} from "../types";
 
 const toNewPatientEntry = (object: unknown): NewPatientEntry => {
-  if ( !object || typeof object !== 'object' ) {
+  if (!object || typeof object !== 'object') {
     throw new Error('Incorrect or missing data');
   }
 
-  if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object && 'occupation' in object) {
+  if ('name' in object && 'dateOfBirth' in object && 'ssn' in object && 'gender' in object
+    && 'occupation' in object && 'entries' in object) {
     const newEntry: NewPatientEntry = {
       name: parseName(object.name),
       dateOfBirth: parseDate(object.dateOfBirth),
       ssn: parseSSN(object.ssn),
       gender: parseGender(object.gender),
       occupation: parseOccupation(object.occupation),
+      entries: parseEntries(object.entries)
     };
     return newEntry;
   }
@@ -51,6 +53,26 @@ const parseSSN = (ssn: unknown): string => {
 };
 
 
+const parseEntries = (entries: unknown): Array<Entry> => {
+  if (!entries || !(entries instanceof Array<Entry>)) {
+    throw new Error('Incorrect or missing entries');
+  }
+  if (isEntryArray(entries)) {
+    return entries;
+  }
+  return [];
+};
+
+
+// function isEntryArray(x: unknown[]): x is Entry[] {
+//   return x.every(i => typeof i === "object");
+// }
+
+const isEntryArray = (entries: unknown): entries is Entry[] => {
+  return typeof entries === "object" || entries instanceof Array;
+};
+
+
 const parseOccupation = (occupation: unknown): string => {
   if (!occupation || !isString(occupation)) {
     throw new Error('Incorrect or missing name');
@@ -71,4 +93,14 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
-export default toNewPatientEntry;
+const parseId = (id: unknown): string => {
+  if (!id || !isString(id)) {
+    throw new Error("Incorrect or missing id: " + id);
+  }
+  return id;
+};
+
+export {
+  parseId,
+  toNewPatientEntry
+};

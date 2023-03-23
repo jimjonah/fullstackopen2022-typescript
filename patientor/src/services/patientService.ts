@@ -8,6 +8,11 @@ const getEntries = (): Patient[] => {
   return patients;
 };
 
+const findById = (patientId:string): Patient | undefined => {
+  console.log('findById', patientId);
+  return patients.find(patient => patient.id === patientId);
+};
+
 const addPatient = ( entry: NewPatientEntry ): Patient => {
   const newDiaryEntry = {
     id: uuidv1(),
@@ -19,12 +24,13 @@ const addPatient = ( entry: NewPatientEntry ): Patient => {
 };
 
 const getNonSensitiveEntries = (): NonSensitivePatientEntry[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries}) => ({
     id,
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries
   }));
 };
 
@@ -34,4 +40,5 @@ export default {
   getEntries,
   getNonSensitiveEntries,
   addPatient,
+  findById,
 };

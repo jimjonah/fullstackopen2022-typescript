@@ -3,10 +3,20 @@ import express from "express";
 const router = express.Router();
 import {Request, Response} from 'express';
 import patientService from "../services/patientService";
-import toNewPatientEntry from "../services/patientUtils";
+import {parseId, toNewPatientEntry} from "../services/patientUtils";
 
 router.get('/', (_req:Request, res:Response) => {
   res.send(patientService.getNonSensitiveEntries());
+});
+
+router.get('/:id', (req:Request, res:Response) => {
+  // console.log('router.get by id', parseId(req.params.id));
+  const patient = patientService.findById(parseId(req.params.id));
+  if (patient) {
+    res.send(patient);
+  } else {
+    res.sendStatus(404);
+  }
 });
 
 router.post('/', (req:Request, res:Response) => {

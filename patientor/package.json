@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc",
+    "tsc": "npm run lint && tsc",
     "dev": "npm run lint && ts-node-dev src/index.ts",
     "lint": "eslint --ext .ts .",
-    "start": "npm run lint && node build/index.js"
+    "start": "npm run tsc && node build/index.js",
+    "clean": "rm -rf build/* && rm -rf build/"
   },
   "author": "Jim Jonah",
   "license": "ISC",
